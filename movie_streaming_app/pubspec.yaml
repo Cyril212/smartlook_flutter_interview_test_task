@@ -11,9 +11,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   simple_animations: ^2.2.1
-  flutter_smartlook:
-    path: ../../smartlook-flutter-plugin/flutter_smartlook/
-
+  flutter_smartlook: ^3.0.5
+  image: ^3.1.1
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
@@ -23,7 +23,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/icons/
     - assets/images/
     - assets/images/episodes/
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/crawler/FlutterScreenCrawler.dart';
 import 'package:movie_streaming_app/utils/constants.dart';
 
 class EpisodesScreen extends StatefulWidget {
@@ -8,6 +9,19 @@ class EpisodesScreen extends StatefulWidget {
 }
 
 class _EpisodesScreenState extends State<EpisodesScreen> {
+
+  @override
+  void initState() {
+    FlutterScreenCrawler.instance.init(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterScreenCrawler.instance.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

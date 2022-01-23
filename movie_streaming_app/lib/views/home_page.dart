@@ -1,5 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/crawler/FlutterScreenCrawler.dart';
 import 'package:movie_streaming_app/utils/constants.dart';
 import 'package:movie_streaming_app/utils/fadeAnimation.dart';
 import 'package:movie_streaming_app/views/movie_screen.dart';
@@ -10,6 +13,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    FlutterScreenCrawler.instance.init(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterScreenCrawler.instance.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,20 +113,10 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              FadeAnimation(
-                  1.4,
-                  foodItem('assets/images/movie1.jpg', "\$ 15",
-                      "Never Have I Ever")),
-              FadeAnimation(
-                  1.5,
-                  foodItem(
-                      'assets/images/movie2.jpg', '\$ 18', "Finding Ohana")),
-              FadeAnimation(1.6,
-                  foodItem('assets/images/movie3.jpg', "\$ 21", "Sabrina")),
-              FadeAnimation(
-                  1.6,
-                  foodItem(
-                      'assets/images/movie4.png', "\$ 21", "Stranger Things")),
+              FadeAnimation(1.4, foodItem('assets/images/movie1.jpg', "\$ 15", "Never Have I Ever")),
+              FadeAnimation(1.5, foodItem('assets/images/movie2.jpg', '\$ 18', "Finding Ohana")),
+              FadeAnimation(1.6, foodItem('assets/images/movie3.jpg', "\$ 21", "Sabrina")),
+              FadeAnimation(1.6, foodItem('assets/images/movie4.png', "\$ 21", "Stranger Things")),
             ],
           ),
         ),
@@ -138,8 +144,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      gradient:
-                          LinearGradient(begin: Alignment.bottomCenter, stops: [
+                      gradient: LinearGradient(begin: Alignment.bottomCenter, stops: [
                         .2,
                         .9
                       ], colors: [
@@ -200,9 +205,7 @@ class _HomePageState extends State<HomePage> {
         Container(
           height: 7,
           width: 40,
-          decoration: BoxDecoration(
-              color: kRedColor,
-              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          decoration: BoxDecoration(color: kRedColor, borderRadius: BorderRadius.all(Radius.circular(10.0))),
         ),
       ],
     );
@@ -215,9 +218,7 @@ class _HomePageState extends State<HomePage> {
         data: Theme.of(context).copyWith(
             // sets the active color of the `BottomNavigationBar` if `Brightness` is light
             primaryColor: kRedColor,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: kRedColor))),
+            textTheme: Theme.of(context).textTheme.copyWith(caption: new TextStyle(color: kRedColor))),
         // sets the inactive color of the `BottomNavigationBar`
         child: new BottomNavigationBar(
           backgroundColor: kPrimaryColor,

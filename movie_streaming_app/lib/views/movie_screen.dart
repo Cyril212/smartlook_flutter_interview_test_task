@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/crawler/FlutterScreenCrawler.dart';
 import 'package:movie_streaming_app/utils/constants.dart';
 import 'package:movie_streaming_app/utils/fadeAnimation.dart';
 import 'package:movie_streaming_app/views/episodes_screen.dart';
@@ -12,6 +13,19 @@ class MovieScreen extends StatefulWidget {
 }
 
 class _MovieScreenState extends State<MovieScreen> {
+
+  @override
+  void initState() {
+    FlutterScreenCrawler.instance.init(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterScreenCrawler.instance.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
