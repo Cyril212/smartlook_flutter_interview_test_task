@@ -43,6 +43,7 @@ class FlutterScreenCrawler {
     _elementList.treeElements.clear();
   }
 
+  /// Send information to the server
   void _dispatchElementTree() async {
     var url = Uri.parse('http://127.0.0.1:8080');
     await http.post(
@@ -61,7 +62,7 @@ class FlutterScreenCrawler {
   }
 
   /// Creates an image from the given widget by first spinning up a element and render tree,
-  /// then waiting for the given [wait] amount of time and then creating an image via a [RepaintBoundary].
+  /// Then creating an image via a [RepaintBoundary].
   ///
   /// The final image will be of size [imageSize] and the the widget will be layout, ... with the given [logicalSize].
   Future<Uint8List> _createImageFromWidget(Widget widget, {Size logicalSize, Size imageSize}) async {
@@ -110,6 +111,9 @@ class FlutterScreenCrawler {
     return byteData.buffer.asUint8List();
   }
 
+  /// Recursively crawl child tree elements and converts Element to RenderBox to get canvas data such as Size and position
+  /// afterwards retrieve color from [_screenImage] by sending [x] and [y] position of element
+  /// at the end adds [TreeElement] to [treeElements] to dispatch data by using [_dispatchElementTree]
   Future _visitChildren(Element element) {
     element.visitChildElements((child) {
       if (child is StatefulElement || child is StatelessElement) {
@@ -145,7 +149,8 @@ class FlutterScreenCrawler {
           }
         }
 
-        print("Box:${child.widget.toStringShort()} width:${child.size.width.toString()} height:${child.size.height.toString()} X:$x Y:$y Color: #$color Count: ${_treeElementCounter++}");
+        print(
+            "Box:${child.widget.toStringShort()} width:${child.size.width.toString()} height:${child.size.height.toString()} X:$x Y:$y Color: #$color Count: ${_treeElementCounter++}");
 
         _elementList.treeElements.add(TreeElement(top: x, left: y, width: width, height: height, color: '#' + color));
       }
@@ -163,6 +168,7 @@ class FlutterScreenCrawler {
 
     _screenedImage = image;
 
+    //todo:uncomment to see a screenshot
     // showAboutDialog(context: context, children: [Image.memory(bytesImage)]);
 
     return Future.value(null);
