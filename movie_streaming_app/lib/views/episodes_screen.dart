@@ -3,24 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:movie_streaming_app/crawler/FlutterScreenCrawler.dart';
 import 'package:movie_streaming_app/utils/constants.dart';
 
+import 'RouteAwareState.dart';
+
 class EpisodesScreen extends StatefulWidget {
   @override
   _EpisodesScreenState createState() => _EpisodesScreenState();
 }
 
-class _EpisodesScreenState extends State<EpisodesScreen> {
-
-  @override
-  void initState() {
-    FlutterScreenCrawler.instance.init(context);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    FlutterScreenCrawler.instance.dispose();
-    super.dispose();
-  }
+class _EpisodesScreenState extends RouteAwareState<EpisodesScreen>  {
 
   @override
   Widget build(BuildContext context) {

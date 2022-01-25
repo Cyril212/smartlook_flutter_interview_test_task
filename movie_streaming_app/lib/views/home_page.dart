@@ -7,24 +7,14 @@ import 'package:movie_streaming_app/utils/constants.dart';
 import 'package:movie_streaming_app/utils/fadeAnimation.dart';
 import 'package:movie_streaming_app/views/movie_screen.dart';
 
+import 'RouteAwareState.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-
-  @override
-  void initState() {
-    FlutterScreenCrawler.instance.init(context);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    FlutterScreenCrawler.instance.dispose();
-    super.dispose();
-  }
+class _HomePageState extends RouteAwareState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -249,4 +239,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 }

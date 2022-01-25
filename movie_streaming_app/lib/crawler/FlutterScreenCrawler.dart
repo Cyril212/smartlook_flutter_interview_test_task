@@ -20,38 +20,38 @@ class FlutterScreenCrawler {
   img.Image _screenedImage;
   int _treeElementCounter = 0;
 
-  TreeElementList _elementList;
+  TreeElementList _elementList = TreeElementList();
+
+  BuildContext _currentContext;
 
   void init(BuildContext context) {
+    _currentContext = context;
+  }
+
+  void takeScreenSnapshot(Function(Object) onComplete) {
     _resetCounter();
+    _elementList.treeElements.clear();
 
     _elementList = TreeElementList();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      print("========= Start crawling =========");
+    print("========= Start crawling =========");
 
-      context.visitChildElements((element) {
-        _getScreenScreenshot(context, element)
-            .then((value) => _visitChildren(context))
-            .then((value) => print("========= Crawling has been completed ========="))
-            .then((value) => _dispatchElementTree());
+    _currentContext.visitChildElements((element) {
+      _getScreenScreenshot(_currentContext, element).then((value) => _visitChildren(_currentContext)).then((value) {
+        print("========= Crawling has been completed =========");
+        onComplete(_elementList.formattedJson);
       });
     });
   }
 
-  void dispose() {
-    _resetCounter();
-    _elementList.treeElements.clear();
-  }
-
-  /// Send information to the server
-  void _dispatchElementTree() async {
-    var url = Uri.parse("http://${server.address.address}:${server.port}");
-    await http.post(
-      url,
-      body: _elementList.formattedJson,
-    );
-  }
+  // /// Send information to the server
+  // void _dispatchElementTree() async {
+  //   var url = Uri.parse("http://${server.address.address}:${server.port}");
+  //   await http.post(
+  //     url,
+  //     body: _elementList.formattedJson,
+  //   );
+  // }
 
   void _resetCounter() => _treeElementCounter = 0;
 

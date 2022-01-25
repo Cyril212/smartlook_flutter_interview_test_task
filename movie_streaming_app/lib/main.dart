@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/crawler/FlutterScreenCrawler.dart';
 
 import '../views/home_page.dart';
 
@@ -11,19 +12,30 @@ void main() {
   startServer();
 }
 
-HttpServer server;
+// create an instance of `RouteObserver`
+final RouteObserver<PageRoute> routeObserver = RouteObserver();
 
 startServer() async {
-  server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
+  HttpServer server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
 
   await for (var request in server) {
-    final getRequestAsBytes = await request.first;
+    var defaultResponse = '{"code": 405, "message": "No route found for \'${request.method} ${request.uri.path}\': Method Not Allowed"}';
 
-    final json = utf8.decode(getRequestAsBytes);
-    request.response
-      ..headers.contentType = new ContentType("application", "json", charset: "utf-8")
-      ..write(json)
-      ..close();
+    if (request.method == "GET" && request.uri.path == "/getCurrentWidgetTree") {
+      FlutterScreenCrawler.instance.takeScreenSnapshot((json) {
+        request.response
+          ..statusCode = 200
+          ..headers.contentType = new ContentType("application", "json", charset: "utf-8")
+          ..write(json)
+          ..close();
+      });
+    } else {
+      request.response
+        ..headers.contentType = new ContentType("application", "json", charset: "utf-8")
+        ..statusCode = 405
+        ..write(defaultResponse)
+        ..close();
+    }
   }
 }
 
@@ -33,6 +45,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Movie App',
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [routeObserver],
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Color(0xff091A2A),

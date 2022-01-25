@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_streaming_app/crawler/FlutterScreenCrawler.dart';
 import 'package:movie_streaming_app/utils/constants.dart';
 import 'package:movie_streaming_app/utils/fadeAnimation.dart';
+import 'package:movie_streaming_app/views/RouteAwareState.dart';
 import 'package:movie_streaming_app/views/episodes_screen.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -12,20 +12,7 @@ class MovieScreen extends StatefulWidget {
   _MovieScreenState createState() => _MovieScreenState();
 }
 
-class _MovieScreenState extends State<MovieScreen> {
-
-  @override
-  void initState() {
-    FlutterScreenCrawler.instance.init(context);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    FlutterScreenCrawler.instance.dispose();
-    super.dispose();
-  }
-
+class _MovieScreenState extends RouteAwareState<MovieScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +25,7 @@ class _MovieScreenState extends State<MovieScreen> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset('assets/images/stranger_things_background.jpg',
-                    fit: BoxFit.fitWidth),
+                Image.asset('assets/images/stranger_things_background.jpg', fit: BoxFit.fitWidth),
                 ClipRRect(
                   // Clip it cleanly.
                   child: BackdropFilter(
@@ -50,8 +36,7 @@ class _MovieScreenState extends State<MovieScreen> {
                       child: SizedBox(
                         height: 300,
                         width: 200,
-                        child: Image.asset(
-                            "assets/images/stranger_things_poster.jpg"),
+                        child: Image.asset("assets/images/stranger_things_poster.jpg"),
                       ),
                     ),
                   ),
@@ -60,17 +45,13 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 300.0,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      gradient: LinearGradient(
-                          begin: FractionalOffset.topCenter,
-                          end: FractionalOffset.bottomCenter,
-                          colors: [
-                            kPrimaryColor.withOpacity(0.0),
-                            kPrimaryColor,
-                          ],
-                          stops: [
-                            0.5,
-                            1.5
-                          ])),
+                      gradient: LinearGradient(begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter, colors: [
+                        kPrimaryColor.withOpacity(0.0),
+                        kPrimaryColor,
+                      ], stops: [
+                        0.5,
+                        1.5
+                      ])),
                 )
               ],
             ),
@@ -173,9 +154,7 @@ class _MovieScreenState extends State<MovieScreen> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     )),
-                TextSpan(
-                    text: "Espisode 8(season 3)",
-                    style: TextStyle(fontSize: 17, color: Colors.white)),
+                TextSpan(text: "Espisode 8(season 3)", style: TextStyle(fontSize: 17, color: Colors.white)),
               ]),
             ),
             SizedBox(height: 10),
@@ -188,9 +167,7 @@ class _MovieScreenState extends State<MovieScreen> {
               textAlign: TextAlign.center,
               text: TextSpan(children: <TextSpan>[
                 TextSpan(text: "Genres: ", style: kBoldedSubtitleTextSyule),
-                TextSpan(
-                    text: "Drama, Mystery, Sci-Fi & Fantacy",
-                    style: kSubtitleTextSyule),
+                TextSpan(text: "Drama, Mystery, Sci-Fi & Fantacy", style: kSubtitleTextSyule),
               ]),
             ),
             SizedBox(height: 8),
@@ -199,8 +176,7 @@ class _MovieScreenState extends State<MovieScreen> {
               text: TextSpan(children: <TextSpan>[
                 TextSpan(text: "Stars: ", style: kBoldedSubtitleTextSyule),
                 TextSpan(
-                    text:
-                        "Mille Bobby Brown, Winona Ryder, David Harbour Finn Wolfhard, Caleb McLaughlin, Natalia Dyer.....",
+                    text: "Mille Bobby Brown, Winona Ryder, David Harbour Finn Wolfhard, Caleb McLaughlin, Natalia Dyer.....",
                     style: kSubtitleTextSyule),
               ]),
             ),
@@ -209,8 +185,7 @@ class _MovieScreenState extends State<MovieScreen> {
               textAlign: TextAlign.center,
               text: TextSpan(children: <TextSpan>[
                 TextSpan(text: "Companies: ", style: kBoldedSubtitleTextSyule),
-                TextSpan(
-                    text: "21 laps entertainment", style: kSubtitleTextSyule),
+                TextSpan(text: "21 laps entertainment", style: kSubtitleTextSyule),
               ]),
             ),
           ],
@@ -226,9 +201,7 @@ class _MovieScreenState extends State<MovieScreen> {
         data: Theme.of(context).copyWith(
             // sets the active color of the `BottomNavigationBar` if `Brightness` is light
             primaryColor: kRedColor,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: kRedColor))),
+            textTheme: Theme.of(context).textTheme.copyWith(caption: new TextStyle(color: kRedColor))),
         // sets the inactive color of the `BottomNavigationBar`
         child: new BottomNavigationBar(
           backgroundColor: kPrimaryColor,
@@ -262,9 +235,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   void buildBottomSheet() async {
     await showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(45), topRight: Radius.circular(45))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(45), topRight: Radius.circular(45))),
         context: context,
         backgroundColor: kPrimaryColor,
         isScrollControlled: true,
