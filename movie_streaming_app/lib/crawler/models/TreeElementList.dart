@@ -1,4 +1,5 @@
 import 'TreeElement.dart';
+import 'package:movie_streaming_app/utils/string.dart';
 
 class TreeElementList {
   List<TreeElement> treeElements;
@@ -22,5 +23,12 @@ class TreeElementList {
       data['treeElementList'] = this.treeElements.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+
+  String get formattedJson {
+    final jsonString = this.toJson().toString();
+
+    //concat json to have the same body type as in the example
+    return concatByRange(jsonString, 18, jsonString.length - 1);
   }
 }

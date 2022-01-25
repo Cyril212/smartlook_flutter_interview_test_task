@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
+import 'package:movie_streaming_app/main.dart';
 
 import 'models/TreeElement.dart';
 import 'models/TreeElementList.dart';
@@ -27,7 +28,7 @@ class FlutterScreenCrawler {
     _elementList = TreeElementList();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      print("========= Start Crawling =========");
+      print("========= Start crawling =========");
 
       context.visitChildElements((element) {
         _getScreenScreenshot(context, element)
@@ -45,10 +46,10 @@ class FlutterScreenCrawler {
 
   /// Send information to the server
   void _dispatchElementTree() async {
-    var url = Uri.parse('http://127.0.0.1:8080');
+    var url = Uri.parse("http://${server.address.address}:${server.port}");
     await http.post(
       url,
-      body: _elementList.toJson().toString(),
+      body: _elementList.formattedJson,
     );
   }
 
@@ -149,9 +150,6 @@ class FlutterScreenCrawler {
           }
         }
 
-        print(
-            "Box:${child.widget.toStringShort()} width:${child.size.width.toString()} height:${child.size.height.toString()} X:$x Y:$y Color: #$color Count: ${_treeElementCounter++}");
-
         _elementList.treeElements.add(TreeElement(top: x, left: y, width: width, height: height, color: '#' + color));
       }
 
@@ -167,9 +165,6 @@ class FlutterScreenCrawler {
     final img.Image image = img.decodeImage(bytesImage);
 
     _screenedImage = image;
-
-    //todo:uncomment to see a screenshot
-    // showAboutDialog(context: context, children: [Image.memory(bytesImage)]);
 
     return Future.value(null);
   }
